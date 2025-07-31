@@ -1,8 +1,8 @@
 # Positional Bias in LLM-based Radiology Report Generation
 
 ## Introduction
-![overview](https://github.com/zailongchen/Attention_Suppression/blob/main/images/position_characteristic.pdf)
-![algorithm](https://github.com/zailongchen/Attention_Suppression/blob/main/images/attn_loss_algorithm.pdf)
+![overview](https://github.com/zailongchen/Attention_Suppression/blob/main/images/position_characteristic.png)
+![algorithm](https://github.com/zailongchen/Attention_Suppression/blob/main/images/attn_loss_algorithm.png)
 
 ## Getting Started
 ### Installation
