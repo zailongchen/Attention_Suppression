@@ -12,7 +12,7 @@
 Git clone our repository and install the requirements.
 
 ```bash
-https://github.com/wang-zhanyu/R2GenGPT.git
+https://github.com/zailongchen/Attention_Suppression.git
 cd R2GenGPT
 pip install -r requirements.txt
 ```
@@ -28,51 +28,38 @@ After downloading the data, place it in the ./data folder.
 
 ### Training
 
-For shallow alignment
+For MIMIC-CXR
 
 ```bash
-bash scripts/4-1.shallow_run.sh
+bash scripts/run_mimic.sh
 ```
 
-For delta alignment
+For IU-Xray
 
 ```bash
-bash scripts/5-1.delta_run.sh
-```
-
-For deep alignment
-
-```bash
-bash scripts/6-1.deep_run.sh
+bash scripts/run_iuxray.sh
 ```
 
 ### Testing (For MIMIC-CXR)
-You can download our pretrained Delta checkpoints for [Here](https://drive.google.com/drive/folders/1ywEITWfYIAAYy0VY1IZ24Ec_GoNmkqIY?usp=sharing)
 
-For shallow alignment
+For MIMIC-CXR
 
 ```bash
-bash scripts/4-2.shallow_test.sh
+bash scripts/test_mimic.sh
 ```
 
-For delta alignment
+For IU-Xray
 
 ```bash
-bash scripts/5-2.delta_test.sh
-```
-
-For deep alignment
-
-```bash
-bash scripts/6-2.shallow_test.sh
+bash scripts/test_iuxray.sh
 ```
 
 
 ## Acknowledgement
 
-+ [MiniGPT-4](https://github.com/Vision-CAIR/MiniGPT-4) Some codes of this repo are based on MiniGPT-4.
++ [R2GenGPT](https://github.com/wang-zhanyu/R2GenGPT) Some codes of this repo are based on R2GenGPT.
 + [Llama2](https://github.com/facebookresearch/llama) The fantastic language ability of Llama-2 with only 7B parameters is just amazing.
 
 
 ## License
-This repository is under [BSD 3-Clause License](LICENSE.md).
+This repository is under [MIT License](LICENSE.md).
