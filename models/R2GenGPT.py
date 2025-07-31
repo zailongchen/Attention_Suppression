@@ -11,7 +11,7 @@ from evalcap.meteor.meteor import Meteor
 from transformers import SwinModel
 from lightning_tools.optim import config_optimizer
 from peft import get_peft_model, LoraConfig, TaskType
-import pdb
+import torch.nn.functional as F
 
 
 
@@ -189,7 +189,29 @@ class R2GenGPT(pl.LightningModule):
             return_dict=True,
             labels=targets,
         )
-        loss = outputs.loss
+
+        loss_ce = outputs.loss
+
+        ## attn loss
+        visual_start_idx = 6
+        visual_token_len = 49
+        visual_end_idx = visual_start_idx + visual_token_len 
+        report_start_idx = 80
+        
+        attn = torch.stack(outputs.attentions).mean(0).mean(1)[:, report_start_idx:]  # (B, R, T)
+        T = attn.shape[-1]
+        mask = torch.ones(T, dtype=torch.bool, device=attn.device)
+        mask[visual_start_idx:visual_end_idx] = mask[report_start_idx:] = False  # prompt = True, else = False
+        non_mask = ~mask
+
+        mask = mask[None, None, :].expand(*attn.shape)
+        non_mask = ~mask
+
+        topk_vals, _ = attn.masked_fill(~mask, -1e9).topk(k=2, dim=-1)
+        mean_non = (attn.masked_fill(~non_mask, 0.0).sum(-1) / (non_mask.sum(-1) + 1e-8)).unsqueeze(-1)
+        loss_attn = F.relu(topk_vals / (mean_non + 1e-8) - 10.0).mean()
+
+        loss = loss_ce + 0.1 * loss_attn
         return {"loss": loss}
 
     def training_step(self, batch, batch_idx):
