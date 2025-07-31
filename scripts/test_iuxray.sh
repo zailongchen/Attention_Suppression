@@ -3,7 +3,7 @@
 dataset="iu_xray"
 annotation="data/iu_xray/annotation.json"
 base_dir="./data/iu_xray/images"
-delta_file="/apdcephfs/share_733425/vinnylywang/zhanyuwang/Code/R2GenGPT/save/iu_xray/v1_deep/checkpoints/checkpoint_epoch12_step1677_bleu0.185560_cider0.678231.pth"
+delta_file="path/to/pretrained/delta_file"
 
 version="v1_deep"
 savepath="./save/$dataset/$version"
