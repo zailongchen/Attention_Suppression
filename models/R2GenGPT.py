@@ -197,6 +197,7 @@ class R2GenGPT(pl.LightningModule):
         visual_token_len = 49
         visual_end_idx = visual_start_idx + visual_token_len 
         report_start_idx = 80
+        factor = 10.0
         
         attn = torch.stack(outputs.attentions).mean(0).mean(1)[:, report_start_idx:]  # (B, R, T)
         T = attn.shape[-1]
@@ -209,7 +210,7 @@ class R2GenGPT(pl.LightningModule):
 
         topk_vals, _ = attn.masked_fill(~mask, -1e9).topk(k=2, dim=-1)
         mean_non = (attn.masked_fill(~non_mask, 0.0).sum(-1) / (non_mask.sum(-1) + 1e-8)).unsqueeze(-1)
-        loss_attn = F.relu(topk_vals / (mean_non + 1e-8) - 10.0).mean()
+        loss_attn = F.relu(topk_vals / (mean_non + 1e-8) - factor).mean()
 
         loss = loss_ce + 0.1 * loss_attn
         return {"loss": loss}
